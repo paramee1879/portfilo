@@ -1,0 +1,120 @@
+// ================================================================
+// controllers/skillController.js
+// ================================================================
+
+import Skill from '../models/Skill.js';
+
+// @route   GET /api/skills
+// @desc    Get all skills (PUBLIC)
+export const getAllSkills = async (req, res, next) => {
+  try {
+    const { category, user } = req.query;
+    let filter = {};
+
+    if (category) filter.category = category;
+    if (user) filter.user = user; // Filter by specific user ID
+
+    const skills = await Skill.find(filter)
+      .populate('user', 'name email avatar')
+      .sort('order');
+    
+    res.json(skills);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @route   GET /api/skills/my
+// @desc    Get MY skills only (PROTECTED)
+export const getMySkills = async (req, res, next) => {
+  try {
+    const skills = await Skill.find({ user: req.user._id })
+      .populate('user', 'name email avatar')
+      .sort('order');
+    
+    res.json(skills);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @route   GET /api/skills/:id
+// @desc    Get single skill (PUBLIC)
+export const getSkillById = async (req, res, next) => {
+  try {
+    const skill = await Skill.findById(req.params.id)
+      .populate('user', 'name email avatar');
+    
+    if (!skill) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
+    
+    res.json(skill);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @route   POST /api/skills
+// @desc    Create skill (PROTECTED)
+export const createSkill = async (req, res, next) => {
+  try {
+    const skill = await Skill.create({
+      ...req.body,
+      user: req.user._id
+    });
+    
+    res.status(201).json(skill);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @route   PUT /api/skills/:id
+// @desc    Update skill (PROTECTED - owner only)
+export const updateSkill = async (req, res, next) => {
+  try {
+    const skill = await Skill.findById(req.params.id);
+    
+    if (!skill) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
+    
+    // Check if skill belongs to user
+    if (skill.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to update this skill' });
+    }
+    
+    const updatedSkill = await Skill.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    ).populate('user', 'name email avatar');
+    
+    res.json(updatedSkill);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @route   DELETE /api/skills/:id
+// @desc    Delete skill (PROTECTED - owner only)
+export const deleteSkill = async (req, res, next) => {
+  try {
+    const skill = await Skill.findById(req.params.id);
+    
+    if (!skill) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
+    
+    // Check if skill belongs to user
+    if (skill.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this skill' });
+    }
+    
+    await skill.deleteOne();
+    res.json({ message: 'Skill deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
