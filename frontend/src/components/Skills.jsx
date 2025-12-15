@@ -11,39 +11,63 @@ const Skills = () => {
       .catch(err => console.error(err));
   }, []);
 
-  const groupedSkills = skills.reduce((acc, skill) => {
-    if (!acc[skill.category]) acc[skill.category] = [];
-    acc[skill.category].push(skill);
-    return acc;
-  }, {});
-
   return (
-    <section id="skills" className="py-20 bg-gray-900 text-white px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">Skills & Expertise</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-            <div key={category} className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-2xl font-semibold mb-4 capitalize text-purple-400">
-                {category}
-              </h3>
-              <div className="space-y-4">
-                {categorySkills.map(skill => (
-                  <div key={skill._id}>
-                    <div className="flex justify-between mb-1">
-                      <span>{skill.name}</span>
-                      <span className="text-purple-400">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div 
-                        className="bg-purple-600 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
+    <section id="skills" className="py-20 bg-black text-white">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-bold mb-2">SKILL AREA</h2>
+          <div className="h-1 w-20 bg-red-500 mx-auto mb-4" />
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Lorem amet consectetur adipiscing elit. Et querat architecto iusto natrum dignissimos consectetur sit quasi officia nam et.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {skills.length > 0 ? (
+            skills.map(skill => (
+              <div key={skill._id} className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-semibold">{skill.name}</span>
+                  <span className="text-red-500 font-bold">{skill.level}%</span>
+                </div>
+                <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+                  <div 
+                    className="bg-gradient-to-r from-red-600 to-pink-600 h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${skill.level}%` }}
+                  />
+                </div>
               </div>
-            </div>
+            ))
+          ) : (
+            <>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-semibold">WordPress</span>
+                  <span className="text-red-500 font-bold">90%</span>
+                </div>
+                <div className="w-full bg-gray-800 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-red-600 to-pink-600 h-full rounded-full" style={{ width: '90%' }} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-semibold">OpenCart</span>
+                  <span className="text-red-500 font-bold">75%</span>
+                </div>
+                <div className="w-full bg-gray-800 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-red-600 to-pink-600 h-full rounded-full" style={{ width: '75%' }} />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Skill Tags */}
+        <div className="flex flex-wrap justify-center gap-3 mt-12">
+          {['HTML', 'CSS', 'ADOBE PHOTOSHOP', 'BOOTSTRAP', 'JQUERY', 'JAVASCRIPT', 'WORDPRESS', 'META', 'CODEIGNITER', 'OPENCART', 'REACT.JS'].map(tag => (
+            <span key={tag} className="px-5 py-2 bg-red-600 hover:bg-red-700 rounded-full text-sm font-semibold transition cursor-pointer">
+              {tag}
+            </span>
           ))}
         </div>
       </div>

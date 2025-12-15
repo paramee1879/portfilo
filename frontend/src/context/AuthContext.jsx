@@ -17,8 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const { API_URL } = await import('../config/api');
-      const res = await fetch(`${API_URL}/users/profile`, {
+      const res = await fetch('http://localhost:8070/api/users/profile', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -31,27 +30,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const { API_URL } = await import('../config/api');
-    const res = await fetch(`${API_URL}/users/login`, {
+    const res = await fetch('http://localhost:8070/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setToken(data.token);
-      setUser(data);
-      return { success: true };
-    }
-    return { success: false, message: data.message };
-  };
-
-  const register = async (name, email, password) => {
-    const { API_URL } = await import('../config/api');
-    const res = await fetch(`${API_URL}/users/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password })
     });
     const data = await res.json();
     if (res.ok) {
@@ -68,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
