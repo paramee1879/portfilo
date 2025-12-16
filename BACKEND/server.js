@@ -26,6 +26,10 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/contact', contactRoutes);
 app.use("/uploads", express.static("uploads"));
 
+app.get('/', (req, res) => {
+  res.send('Portfolio backend is running...');
+});
+
 
 // Error handling middleware - must be AFTER routes
 app.use((err, req, res, next) => {
