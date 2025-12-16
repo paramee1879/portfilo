@@ -1,5 +1,5 @@
 // controllers/projectController.js
-import Project from '../models/Project.js';
+import Project from '../models/project.js';
 
 // @route   GET /api/projects
 // @desc    Get all projects (PUBLIC - no auth required)

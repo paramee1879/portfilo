@@ -1,5 +1,5 @@
 // controllers/userController.js
-import User from '../models/User.js';
+import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 
 // Generate JWT token
@@ -85,6 +85,21 @@ export const login = async (req, res, next) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getPublicProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 // @route   GET /api/users/profile
 // @desc    Get user profile
