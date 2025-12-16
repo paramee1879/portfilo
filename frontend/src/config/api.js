@@ -1,3 +1,3 @@
 
 // src/config/api.js
-export const API_URL = 'http://localhost:8070/api';
+export const API_URL = 'https://myportfilo-e4qd.onrender.com';
