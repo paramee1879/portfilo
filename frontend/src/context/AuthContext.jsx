@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 
+// Your deployed backend API base URL
+const API_URL = "https://myportfilo-e04gd.onrender.com/api";
+
 const AuthContext = React.createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -17,34 +20,40 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch('http://localhost:8070/api/users/profile', {
+      const res = await fetch(`${API_URL}/users/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       if (res.ok) {
         const data = await res.json();
         setUser(data);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Profile fetch error:", err);
     }
   };
 
   const login = async (email, password) => {
-    const res = await fetch('http://localhost:8070/api/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
+    try {
+      const res = await fetch(`${API_URL}/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      setToken(data.token);
-      setUser(data);
-      return { success: true };
+      if (res.ok) {
+        setToken(data.token);
+        setUser(data);
+        return { success: true };
+      }
+
+      return { success: false, message: data.message };
+    } catch (err) {
+      console.error("Login error:", err);
+      return { success: false, message: "Something went wrong" };
     }
-
-    return { success: false, message: data.message };
   };
 
   const logout = () => {
