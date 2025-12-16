@@ -1,5 +1,5 @@
 // controllers/contactController.js
-import Contact from '../models/Contact.js';
+import Contact from '../models/contact.js';
 
 // @route   GET /api/contact
 // @desc    Get all contact messages (PROTECTED - owner only)

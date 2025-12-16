@@ -1,8 +1,4 @@
-// ================================================================
-// controllers/skillController.js
-// ================================================================
-
-import Skill from '../models/Skill.js';
+import Skill from '../models/skill.js';
 
 // @route   GET /api/skills
 // @desc    Get all skills (PUBLIC)

@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { API_URL } from './config/api';
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -26,6 +29,13 @@ function App() {
 
   return (
     <AuthProvider>
+      {/* Global Toast System */}
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        theme="dark"
+      />
+
       <div className="min-h-screen bg-black text-white">
         <Navigation />
         <Hero userData={userData} />

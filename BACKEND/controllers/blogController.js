@@ -1,5 +1,5 @@
 
-import Blog from '../models/Blog.js';
+import Blog from '../models/blog.js';
 
 // @route   GET /api/blogs
 // @desc    Get all blogs (PUBLIC - only published)
