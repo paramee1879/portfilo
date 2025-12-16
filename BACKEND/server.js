@@ -24,6 +24,8 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/contact', contactRoutes);
+app.use("/uploads", express.static("uploads"));
+
 
 // Error handling middleware - must be AFTER routes
 app.use((err, req, res, next) => {
