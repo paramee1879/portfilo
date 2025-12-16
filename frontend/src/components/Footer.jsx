@@ -17,7 +17,7 @@ const Footer = ({ userData }) => {
             <div className="space-y-2">
               <a href="#home" className="block hover:text-orange-500 transition">Home</a>
               <a href="#about" className="block hover:text-orange-500 transition">About</a>
-              <a href="#projects" className="block hover:text-orange-500 transition">Portfolio</a>
+              <a href="#projects" className="block hover:text-orange-500 transition">Projects</a>
               <a href="#contact" className="block hover:text-orange-500 transition">Contact</a>
             </div>
           </div>

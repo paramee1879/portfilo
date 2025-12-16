@@ -15,55 +15,42 @@ const Contact = () => {
     company: ""
   });
 
-  // -----------------------------
-  // VALIDATION FUNCTION
-  // -----------------------------
+  const [errors, setErrors] = useState({});
+
+  // VALIDATION
   const validate = () => {
-    if (!formData.name.trim()) {
-      toast.error("Name is required");
-      return false;
-    }
+    const newErrors = {};
+
+    if (!formData.name.trim()) newErrors.name = "Name is required";
 
     if (!formData.email.trim()) {
-      toast.error("Email is required");
-      return false;
-    }
-
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error("Enter a valid email address");
-      return false;
+      newErrors.email = "Email is required";
+    } else {
+      const emailRegex = /^\S+@\S+\.\S+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = "Enter a valid email address";
+      }
     }
 
     if (formData.phone && !/^[0-9+\-() ]+$/.test(formData.phone)) {
-      toast.error("Phone number is invalid");
-      return false;
+      newErrors.phone = "Phone number is invalid";
     }
 
-    if (!formData.subject.trim()) {
-      toast.error("Subject is required");
-      return false;
-    }
+    if (!formData.subject.trim()) newErrors.subject = "Subject is required";
 
     if (!formData.message.trim()) {
-      toast.error("Message is required");
-      return false;
+      newErrors.message = "Message is required";
+    } else if (formData.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
     }
 
-    if (formData.message.length < 10) {
-      toast.error("Message must be at least 10 characters");
-      return false;
-    }
-
-    return true;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // -----------------------------
-  // SUBMIT HANDLER
-  // -----------------------------
+  // SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
     toast.info("Sending message...");
@@ -82,7 +69,6 @@ const Contact = () => {
 
       if (res.ok) {
         toast.success("Message sent successfully");
-
         setFormData({
           name: "",
           email: "",
@@ -91,10 +77,11 @@ const Contact = () => {
           phone: "",
           company: ""
         });
+        setErrors({});
       } else {
         toast.error(data.message || "Failed to send message");
       }
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong");
     }
   };
@@ -115,59 +102,76 @@ const Contact = () => {
 
             {/* Name + Email */}
             <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+              </div>
 
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
-              />
+              <div>
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
+                />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              </div>
             </div>
 
             {/* Phone + Company */}
             <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <input
-                type="text"
-                placeholder="Phone (optional)"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Phone (optional)"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
+                />
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              </div>
 
-              <input
-                type="text"
-                placeholder="Company (optional)"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Company (optional)"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
+                />
+              </div>
             </div>
 
             {/* Subject */}
-            <input
-              type="text"
-              placeholder="Subject"
-              value={formData.subject}
-              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-              className="w-full p-4 mb-6 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
-            />
+            <div className="mb-6">
+              <input
+                type="text"
+                placeholder="Subject"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none transition text-white placeholder-gray-500"
+              />
+              {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+            </div>
 
             {/* Message */}
-            <textarea
-              placeholder="Your Message"
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              rows={6}
-              className="w-full p-4 mb-6 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none resize-none transition text-white placeholder-gray-500"
-            />
+            <div className="mb-6">
+              <textarea
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                rows={6}
+                className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-lg focus:border-orange-500 outline-none resize-none transition text-white placeholder-gray-500"
+              />
+              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+            </div>
 
             {/* Submit Button */}
             <button

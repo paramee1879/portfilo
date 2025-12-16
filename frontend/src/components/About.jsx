@@ -1,3 +1,6 @@
+import meImage from "../assets/mee.jpeg";
+import cvFile from "../assets/cv.pdf";
+
 const About = ({ userData }) => {
   return (
     <section id="about" className="py-32 bg-gradient-to-b from-black to-gray-900 text-white">
@@ -17,7 +20,7 @@ const About = ({ userData }) => {
             <div className="absolute inset-0 bg-orange-500/20 rounded-lg transform rotate-3"></div>
             <div className="relative border-4 border-orange-500 rounded-lg overflow-hidden">
               <img 
-                src={userData?.avatar || "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500"}
+                src={userData?.avatar || meImage}
                 alt="About"
                 className="w-full h-[500px] object-cover"
               />
@@ -31,7 +34,7 @@ const About = ({ userData }) => {
             <p className="text-gray-300 text-lg leading-relaxed">
               Hi, I'm{" "}
               <span className="text-orange-500 font-bold">
-                {userData?.name || "John Doe"}
+                {userData?.name || "Paramee Hansana"}
               </span>
               {userData?.title && <> — {userData.title}</>}
             </p>
@@ -39,7 +42,7 @@ const About = ({ userData }) => {
             {/* Bio */}
             <p className="text-gray-400 leading-relaxed">
               {userData?.bio ||
-                "I specialize in branding, UI/UX design, and digital illustrations. My goal is to bring your ideas to life through creative and innovative designs that leave a lasting impact."}
+                "I’m a third‑year IT undergraduate at SLIIT, specializing in Software Engineering. I bring ideas to life by crafting modern, intuitive, and high‑performance web applications. My work blends clean architecture, smooth user experiences, and innovative problem‑solving to create digital products that make a lasting impact."}
             </p>
 
             {/* Stats */}
@@ -48,7 +51,7 @@ const About = ({ userData }) => {
               <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
                 <p className="text-gray-400 text-sm mb-2">Email</p>
                 <p className="text-white font-semibold">
-                  {userData?.email || "example@gmail.com"}
+                  {userData?.email || "hansanatp@gmail.com"}
                 </p>
               </div>
 
@@ -76,9 +79,13 @@ const About = ({ userData }) => {
             </div>
 
             {/* CV Button */}
-            <button className="mt-8 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition transform hover:scale-105">
+            <a
+              href={cvFile}
+              download="Paramee_Hansana_CV.pdf"
+              className="mt-8 inline-block px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition transform hover:scale-105"
+            >
               Download CV
-            </button>
+            </a>
 
           </div>
         </div>

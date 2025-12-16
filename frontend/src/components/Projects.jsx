@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { API_URL } from "../config/api";
 
+// Remove /api from API_URL to get the base server URL
+const BASE_URL = API_URL.replace("/api", "");
+
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
-    fetch(`${API_URL}/projects`)   // ✅ Correct URL (API_URL already includes /api)
+    fetch(`${API_URL}/projects`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch projects");
         return res.json();
@@ -29,7 +32,7 @@ const Projects = () => {
 
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold mb-4">
-            <span className="text-orange-500">Portfolio</span>
+            <span className="text-orange-500">Projects</span>
           </h2>
           <div className="w-24 h-1 bg-orange-500 mx-auto"></div>
         </div>
@@ -60,26 +63,22 @@ const Projects = () => {
             >
               <div className="aspect-square overflow-hidden bg-gray-800">
                 <img
-                  src={project.image}
+                  src={`${BASE_URL}/uploads/${project.image}`}   // Load image from backend
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                <h3 className="text-2xl font-bold mb-2 text-orange-500">{project.title}</h3>
-                <p className="text-gray-300 text-sm mb-4">{project.description}</p>
+                <h3 className="text-2xl font-bold mb-2 text-orange-500">
+                  {project.title}
+                </h3>
 
-                {project.links?.live && (
-                  <a
-                    href={project.links.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 bg-orange-500 rounded-lg text-sm hover:bg-orange-600 transition"
-                  >
-                    View Project
-                  </a>
-                )}
+                <p className="text-gray-300 text-sm mb-4">
+                  {project.description}
+                </p>
+
+                {/* Removed View Project button */}
               </div>
             </div>
           ))}
