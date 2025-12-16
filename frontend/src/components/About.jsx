@@ -1,67 +1,60 @@
 const About = ({ userData }) => {
   return (
-    <section id="about" className="py-20 bg-gray-900 text-white">
+    <section id="about" className="py-32 bg-gradient-to-b from-black to-gray-900 text-white">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold mb-4">
+            <span className="text-orange-500">About</span> Me
+          </h2>
+          <div className="w-24 h-1 bg-orange-500 mx-auto"></div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
           {/* Image */}
           <div className="relative">
-            <img 
-              src={userData?.avatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500'} 
-              alt="About"
-              className="rounded-2xl shadow-2xl"
-            />
+            <div className="absolute inset-0 bg-orange-500/20 rounded-lg transform rotate-3"></div>
+            <div className="relative border-4 border-orange-500 rounded-lg overflow-hidden">
+              <img 
+                src={userData?.avatar || 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500'} 
+                alt="About"
+                className="w-full h-[500px] object-cover"
+              />
+            </div>
           </div>
 
           {/* Content */}
           <div className="space-y-6">
-            <div>
-              <h2 className="text-5xl font-bold mb-2">ABOUT US</h2>
-              <div className="h-1 w-20 bg-red-500" />
-            </div>
-
-            <p className="text-gray-400 leading-relaxed">
-              I am <span className="text-red-500 font-semibold">{userData?.name || 'Web Designer'}</span> and web developer. Lorem ipsum dolor sit amet consectetur adipiscing elit. Et querat architecto iusto natrum dignissimos consectetur sit quasi officia nam et.
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Hi, I'm <span className="text-orange-500 font-bold">{userData?.name || 'John Doe'}</span>, a passionate graphic designer with over 5 years of experience in creating stunning visual experiences.
             </p>
 
             <p className="text-gray-400 leading-relaxed">
-              Sed ut perspiciatis unde omnis iste. Quisque actraqum nunc no dolor sit ametaugue. Sed ut perspiciatis unde omnis iste.
+              I specialize in branding, UI/UX design, and digital illustrations. My goal is to bring your ideas to life through creative and innovative designs that leave a lasting impact.
             </p>
 
-            {/* Info Grid */}
-            <div className="grid grid-cols-2 gap-4 pt-4">
-              <div>
-                <p className="text-gray-500 text-sm">Birthday</p>
-                <p className="text-white font-semibold">15 March 1990</p>
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-6 pt-8">
+              <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                <p className="text-gray-400 text-sm mb-2">Email</p>
+                <p className="text-white font-semibold">{userData?.email || 'john@example.com'}</p>
               </div>
-              <div>
-                <p className="text-gray-500 text-sm">Age</p>
-                <p className="text-white font-semibold">27 Years Old</p>
+              <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                <p className="text-gray-400 text-sm mb-2">Phone</p>
+                <p className="text-white font-semibold">+1 234 567 890</p>
               </div>
-              <div>
-                <p className="text-gray-500 text-sm">Website</p>
-                <p className="text-white font-semibold">{userData?.social?.website || 'www.example.com'}</p>
+              <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                <p className="text-gray-400 text-sm mb-2">Location</p>
+                <p className="text-white font-semibold">New York, USA</p>
               </div>
-              <div>
-                <p className="text-gray-500 text-sm">Email</p>
-                <p className="text-white font-semibold">{userData?.email || 'example@mail.com'}</p>
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">Degree</p>
-                <p className="text-white font-semibold">Master</p>
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">Phone</p>
-                <p className="text-white font-semibold">+123 456 7890</p>
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">City</p>
-                <p className="text-white font-semibold">Colombo, LK</p>
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm">Language</p>
-                <p className="text-white font-semibold">English, Sinhala</p>
+              <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                <p className="text-gray-400 text-sm mb-2">Experience</p>
+                <p className="text-white font-semibold">5+ Years</p>
               </div>
             </div>
+
+            <button className="mt-8 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition transform hover:scale-105">
+              Download CV
+            </button>
           </div>
         </div>
       </div>

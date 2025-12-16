@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 const AuthContext = React.createContext(null);
 
@@ -35,12 +35,15 @@ export const AuthProvider = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
+
     const data = await res.json();
+
     if (res.ok) {
       setToken(data.token);
       setUser(data);
       return { success: true };
     }
+
     return { success: false, message: data.message };
   };
 
@@ -55,5 +58,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;
