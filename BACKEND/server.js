@@ -2,47 +2,66 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import userRoutes from './routes/userRoutes.js';
-import blogRoutes from './routes/blogRoutes.js';        // ← Add this
-import projectRoutes from './routes/projectRoutes.js';  // ← Add this
-import skillRoutes from './routes/skillRoutes.js';      // ← Add this
-import contactRoutes from './routes/contactRoutes.js';  // ← Add this
+import blogRoutes from './routes/blogRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
+import skillRoutes from './routes/skillRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 
 const app = express();
+
+// Fix __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Register routes BEFORE database connection
+// API Routes
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/contact', contactRoutes);
-app.use("/uploads", express.static("uploads"));
 
+// Serve uploaded images
+app.use('/uploads', express.static('uploads'));
+
+// Serve frontend (Vite build)
+const frontendPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(frontendPath));
+
+// Root route
 app.get('/', (req, res) => {
   res.send('Portfolio backend is running...');
 });
 
+// Catch-all route for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
-// Error handling middleware - must be AFTER routes
+// Error handler
 app.use((err, req, res, next) => {
   console.error('=== ERROR CAUGHT ===');
   console.error('Message:', err.message);
   console.error('Stack:', err.stack);
   console.error('===================');
-  res.status(500).json({ 
+
+  res.status(500).json({
     message: err.message,
     stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 });
 
+// MongoDB + Server start
 mongoose.set('bufferCommands', false);
 
 const startServer = async () => {
