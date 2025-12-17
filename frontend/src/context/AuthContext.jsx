@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 // Your deployed backend API base URL
-const API_URL = "https://myportfilo-e04gd.onrender.com/api";
+const API_URL = "https://myportfilo-e4qd.onrender.com/api";
 
 const AuthContext = React.createContext(null);
 
