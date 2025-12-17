@@ -1,5 +1,5 @@
 import meImage from "../assets/mee.jpeg";
-import cvFile from "../assets/cv.pdf";
+import cvFile from "../assets/Cv.pdf";
 
 const About = ({ userData }) => {
   return (
