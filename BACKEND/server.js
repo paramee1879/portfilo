@@ -35,16 +35,16 @@ app.use('/api/contact', contactRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Serve frontend (Vite build)
-const frontendPath = path.join(__dirname, 'client', 'dist');
+const frontendPath = path.join(__dirname, 'frontend', 'dist');
 app.use(express.static(frontendPath));
 
-// Root route
+// Root route (optional)
 app.get('/', (req, res) => {
   res.send('Portfolio backend is running...');
 });
 
-// Catch-all route for React Router
-app.get('*', (req, res) => {
+// Catch-all route for React Router (Express 5 safe)
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
